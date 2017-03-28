@@ -1,0 +1,99 @@
+e-PAL (Epsilon Pareto Active Learning) Algorithm
+
+This program is written in Matlab and executes the ePAL algorithm
+It uses GPML Matlab Code 
+http://www.gaussianprocess.org/gpml/code/matlab
+
+********************* Quick Start ******************************
+
+To run the algorithm with one of our data sets, start Matlab and change the path to your local pal directory and write the following command:
+
+>>run_pal
+
+Then, give the name of the configuration file (conf/llvm.dat, conf/noc.dat or conf/sn.dat):
+
+Input the name of the configuration file: conf/llvm.dat
+
+********************* Problems that fit PAL *********************
+
+Goal:
+
+A design space defines a set of configurations, parameters or settings, which we call features, that are valid
+for a particular system. This system responds to these features and this response is measured with 2 metrics, which we call
+objective functions or simply objectives. The goal is to find the feature sets that optimize the 2 objective functions at the same time while testing as few feature sets are possible. Evaluating the response of the system is particularly costly.  
+
+Requirements:
+
+The design space is enumerable. All valid feature sets need to be specified in a text file.
+
+Responses are modelled with Gaussian processes, and thus Euclidian distance between feature vectors should indicate some degree of similarity between their corresponding response functions. 
+
+********************* e-PAL's Implementation **********************
+
+This implementation of e-PAL supports optimization problems with 2 objective functions, obj1 and obj2. 
+We strongly recommend to provide the data in a 2-base logarithmic scale. 
+
+A text file should be created with the values assigned to a set of variables that can change the 
+functionality of the program (lines of the form variable = value). These variables are explained below.
+
+Main configurable variables of e-PAL:
+
+epsilon_list_all: it can be a value or a list of values to test. 
+delta: this is required to calculate beta on every iteration and defines the confidence of the classification
+factor_beta: This is by default 1 but can be increased to make the algorithm converge faster
+
+Please refer to the paper for more explanation on how epsilon, delta and beta affect the performance of the algorithm. 
+
+Other configuration variables:
+
+length_training_start: number of samples used to initialize the training set 
+s2_optimization: uses an optimization that reduces the number of evaluations of the variance of each predicted value
+max_perc_train: the maximum percentage of the design space that can be explored in case classification of all points does not happen before. 
+test_mode: 1 for test mode and 0 for use mode. See below explanation about the modes.
+num_features: number of features 
+readfile: path and name of file that enumerates design space (see below more details on the format depending on the running mode)
+results_folder: path in which results files will be saved
+log_train: indicates whether objective function is already in a 2-base logarithmic scale
+train_data_range_obj1 and train_data_range_obj2: an approximation of the range in which the values of obj1 and obj2 are expected. This is one number found, for example, by approximating maximum_value_obj1 - minimum_value_obj1.
+num_of_repetitions: number of times that experiment is repeated (for test mode only)
+maximize_obj1: set this variable to 1 if the goal is to maximize the value of obj1, otherwise (to minimize) set it to 0
+maximize_obj2: set this variable to 1 if the goal is to maximize the value of obj2, otherwise (to minimize) set it to 0
+
+If the implementation needs to be further customized please have a look at the main file run_pal.m.
+
+********************* 2 Execution Modes *************************
+
+e-PAL can be executed in two modes:
+
+Test mode: 
+
+Use this mode when all the design space has been exhaustively explored and you want to test 
+the efficiency of the algorithm using the epsilon error. 
+For the calculation of the error the real Pareto-optimal points must be known and therefore
+the response of all the points in the design space should be available. 
+
+The design space should be provided in a csv file with the following format:
+feature_1;feature_2;…;feature_n;obj1;obj2
+feature_1;feature_2;…;feature_n;obj1;obj2
+…
+
+Each line corresponds to a design point and it specifies the value of each of the features and the corresponding responses obj1 and obj2.
+
+As there is a random component in the initialization of the algorithm, the algorithm can be executed several times setting the variable repetitions.  The error on each repetition is measured and saved in csv files, when the algorithm stops. Within each repetition the error is also written on each iteration of the algorithm.  
+
+When e-PAL terminates a file named prediction_error.csv is written in the results folder. Each line contains: epsilon used, number of training points plus number of points predicted Pareto that have not been evaluated yet, epsilon error obtained when all predicted Pareto points are evaluated, runtime taken to run the algorithm, number of evaluations made. 
+ 
+Use mode: 
+
+In this mode the algorithm is executed once. The design space should be specified in a csv file (readfile) with the following format:
+feature_1;feature_2;…;feature_n
+feature_1;feature_2;…;feature_n
+…
+Each line corresponds to a design point and it specifies the value of each of the features.
+
+Please write the function eval_func.m to return the values of obj1 and obj2 given a set of features. This function will be used during the execution of 
+e-PAL.
+
+When e-PAL terminates, a file predicted_pareto.csv will be written with the set of features that have been evaluated and the ones that have been predicted to be Pareto optimal. 
+
+
