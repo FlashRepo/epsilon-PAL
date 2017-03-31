@@ -18,9 +18,12 @@
 
 function pareto_01list  = get_pareto_01list(obj1, obj2)
 
+% one dimensional array of zeroes with length = len(obj1)
 pareto_01list = zeros(length(obj1),1);
 max_thrput = 0;
 %sort in one dimension
+% sorted_obj1 contains the sorted values of obj1 whereas sorted_obj1_ind
+% has the corresponding indicies
 [sorted_obj1,sorted_obj1_ind]=sort(obj1);
 
 %check second dimension
@@ -29,8 +32,9 @@ pareto_previous=0;
 pareto_previous_ind=0;
 pareto_previous_obj1=0;
 for i=1:length(sorted_obj1_ind)
+    
    ind = sorted_obj1_ind(i);
-
+    %fprintf('%f %f %f\n',i, obj1(ind),obj2(ind));
    if (pareto_previous==1) 
  
 
@@ -65,7 +69,6 @@ end
 if pareto_previous==1
     pareto_01list(pareto_previous_ind) = 1;
 end
-
 
 end
 

@@ -24,6 +24,7 @@ function [conf,data_all,real_pareto_set_transformed] = load_data_all(conf)
     if isfield(conf,'max_samples')==0
         conf.max_samples = 5000;
     end
+    % For reading the data from the train_data folder
     for i=1:cols_to_read
         string_tmp = strcat(string_tmp,'%f ');
     end
@@ -52,6 +53,7 @@ function [conf,data_all,real_pareto_set_transformed] = load_data_all(conf)
         % f1=f1+50;
         % f2_inv = f2_inv+50;    
 
+        % Normalizing the objective scores to be less than 100
         f1_tmp = (f1./max_obj1)*100;
         f2_tmp = (f2_inv./max_obj2)*100;
 
@@ -70,7 +72,7 @@ function [conf,data_all,real_pareto_set_transformed] = load_data_all(conf)
         % end
    
         real_pareto_set_transformed = get_pareto_sets(data_all{conf.num_features+1}, data_all{conf.num_features+2})
-
+        
         conf.train_data_range_obj1 = max(data_all{conf.num_features+1})-min(data_all{conf.num_features+1});
         conf.train_data_range_obj2 = max(data_all{conf.num_features+2})-min(data_all{conf.num_features+2});
     end

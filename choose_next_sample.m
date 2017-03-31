@@ -19,7 +19,8 @@
 function [untouched_set,pop_sampled,pop_predicted,state,conf_dup] = choose_next_sample(untouched_set,pop_sampled,pop_predicted,conf,state,gp_conf) 
 
     if (pop_sampled.num_entries == 0)
-        %init trainig set 
+        %init trainig set. Generate the initial training set (randomly) 
+        % Randomly select one index (index_sel)
 
         for tmp_iter = 1:conf.length_training_start
             index_sel=randi([1,untouched_set.num_entries],1,1);
@@ -28,9 +29,13 @@ function [untouched_set,pop_sampled,pop_predicted,state,conf_dup] = choose_next_
                 [obj1,obj2] = eval_func(features_in,conf);
                 entry_tmp = [untouched_set.get_entries(index_sel),obj1,obj2];
             else
+                % Get the entry along with the objectives
                 entry_tmp = untouched_set.get_entries(index_sel);
             end
+            % Adding the configuration ( and objectives) to the sampled
+            % population
             pop_sampled = pop_sampled.add_entry(entry_tmp);
+            % removing the configuration from the untouched population
             untouched_set = untouched_set.remove_entries(index_sel);
         end
 

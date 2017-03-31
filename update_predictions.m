@@ -18,8 +18,11 @@
 
 function [pop_predicted,gp_conf] = update_predictions(pop_sampled,pop_predicted,gp_conf,conf,state)
 
+    % Get independent values for the training dataset
     features_train = pop_sampled.get_features(1:pop_sampled.num_entries);
+    % Get independent values for the testing dataset
     features_test = pop_predicted.get_features(1:pop_predicted.num_entries);
+    % Get first objective of the sampled population aka training dataset
     response_train_obj1 = pop_sampled.get_real_obj(1:pop_sampled.num_entries,1);
     response_train_obj2 = pop_sampled.get_real_obj(1:pop_sampled.num_entries,2); 
 
@@ -27,9 +30,11 @@ function [pop_predicted,gp_conf] = update_predictions(pop_sampled,pop_predicted,
     if ((state.iter_train==1) || mod(state.iter_train,conf.gap_hyp_update)==0)
             %disp('find hyperparams........')
             
+            % Not sure what this means?
             gp_conf.hyp_obj1  = gp_find_hp(features_train, response_train_obj1,gp_conf);
             gp_conf.hyp_obj2 = gp_find_hp(features_train, response_train_obj2,gp_conf);
-
+            
+            % Get prediction results from objective 1 and objective 2
             [prediction_test_obj1, var_test_obj1] = gp_original(gp_conf.hyp_obj1, @infExact, gp_conf.meanfunc, gp_conf.covfunc, gp_conf.likfunc, features_train, response_train_obj1,features_test);
             [prediction_test_obj2, var_test_obj2] = gp_original(gp_conf.hyp_obj2, @infExact, gp_conf.meanfunc, gp_conf.covfunc, gp_conf.likfunc, features_train, response_train_obj2,features_test);
             tic

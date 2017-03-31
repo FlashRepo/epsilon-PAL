@@ -33,5 +33,6 @@ function pareto_sets = get_pareto_sets(obj1, obj2)
         
     pareto_sets{1} = obj1_list_pareto;
     pareto_sets{2} = obj2_list_pareto;
+    disp(pareto_sets);
 
 end

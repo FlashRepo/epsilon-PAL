@@ -64,8 +64,10 @@ classdef SetGeneric
       function self = add_entry(self,all_data_in)
 
         len_in = size(all_data_in);
+        % Number of rows. size( A ) returns a row vector whose elements 
+        % contain the length of the corresponding dimension of A 
         len_in = len_in(1);
-        
+        % Append all_data_in to the self.all_data
         self.all_data = [self.all_data;all_data_in];
 
         self.num_entries = self.num_entries + len_in;

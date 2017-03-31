@@ -157,8 +157,8 @@ for rep_iter=1:conf.number_of_repetitions
    
                 %else
                     %print prediction
-                    filename = strcat(conf.results_folder,'predicted_pareto', '_', num2str(rep_iter), '_', num2str(epsilon), '.csv');
-                    file_out_pop = fopen(filename, 'w');
+                    filename = strcat(conf.results_folder,'predicted_pareto', '_', num2str(rep_iter), '_', num2str(.csv')
+                    file_out_pop = fopen(, 'w');
                     for tmp_index_list = 1:pop_sampled.num_entries
                         line = pop_sampled.get_features(tmp_index_list);
                         for tmp_index_list2=1:(length(line)-1)
