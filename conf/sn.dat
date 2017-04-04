@@ -1,3 +1,1 @@
-ÙÕpX±(Ú	“G_™ûÂŠß+InÏ¹³<zgB™×+æbyƒ¤:I‚h›¤>½Õ8"åÊ[<—)åLudG·´ˆSzi¹©œ‹#ZWëŽ|Ùk9ÕÇÖrÊR9¸A™³úìœ3;îÃ¡6Óðí®=i¤'Âbÿ¯ýã+½O:1`YûC[‰ÛõdcS2
-T±Aúþ~ý:e™´q´ËMù.\à<*&Cß7xÛ,Î(`‘„iQb®BH¸ïb->pjplÿÓÂ?¯äÚrXnoÌ4«Ù*”zï«(2cv|âbD,;¥·ñ·Ùl-¯/ý1&ƒùG«ýá€àr^·”Q7RV/ ø'/®ÉW³áu×e°A`tŽ´½¿ì=hõ§1ænY4!t Ð…í¾÷ÃŒYÏ'é,ÈVøÆúW=X·>n\o#5P'ú²Hú¼—†ÇFÕ`ß?ÏB»ú""œRÊ˜
-mœ<Ï9-¹XyI18»ç&~Mv¡MÞ‘ðÊÂÒ—s}ÓTewàóee:ëùƒá+Ì¼6
+name = snnum_features = 3readfile = train_data/sort_256.csvresults_folder = results_sort_256/log_train = 1max_perc_train = 60train_data_range_obj1 = 56train_data_range_obj2 = 80 delta = 0.1factor_beta = 5length_training_start = 15test_mode = 1number_of_repetitions = 40exchange_path = exchangemaximize_obj1 = 0maximize_obj2 = 1epsilon_list = 0.01;0.02;0.04;0.08;0.12;0.16;0.2;0.3max_size_pred_pop = 2000

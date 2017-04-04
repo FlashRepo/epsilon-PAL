@@ -17,7 +17,7 @@
 % Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 function sampling_index = pick_sampling_max_variance(variance)
-
+        length(variance);
         max_var = max(variance);
         %find element with greatest max_var
         for i =1:length(variance)
