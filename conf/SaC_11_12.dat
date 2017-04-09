@@ -1,7 +1,7 @@
 name = SaC_11_12.csv
 num_features = 59
 readfile = ./train_data/SaC_11_12.csv
-results_folders = results_SaC_11_12/
+results_folder = results_SaC_11_12/
 log_train = 0
 max_perc_train = 40
 train_data_range_obj1 = 492.98

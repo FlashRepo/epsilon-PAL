@@ -1,7 +1,7 @@
 name = x264-DB_4_5.csv
 num_features = 17
 readfile = ./train_data/x264-DB_4_5.csv
-results_folders = results_x264-DB_4_5/
+results_folder = results_x264-DB_4_5/
 log_train = 0
 max_perc_train = 40
 train_data_range_obj1 = 160.6666667

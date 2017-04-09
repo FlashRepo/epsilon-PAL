@@ -31,7 +31,7 @@ for f in files:
 	features = len([c for c in columns if "<$" not in c])
 	line1 = "num_features = " + str(features) + "\n"
 	line2 = "readfile = " + train_filename + "\n"
-	line3 = "results_folders = results_" + name[:-4] + "/\n"
+	line3 = "results_folder = results_" + name[:-4] + "/\n"
 
 	dep_columns = [c for c in columns if "<$" in c]
 	ranges = []
