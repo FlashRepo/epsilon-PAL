@@ -27,7 +27,7 @@ RandStream.setGlobalStream(RandStream('mt19937ar','seed',cputime));
 
 data_folder = './conf/';
 %'sol-6d-c2.dat';
-files = {'noc.dat';'sn.dat'};%rs-6d-c3.dat'};%; 'sol-6d-c2.dat'};%'wc+rs-3d-c4.dat'; 'wc+sol-3d-c4.dat';'wc+wc-3d-c4.dat'; 'wc-3d-c4.dat'; 'wc-5d-c5.dat'; 'wc-6d-c1.dat'; 'wc-c1-3d-c1.dat'; 'wc-c3-3d-c1.dat'};
+files = {'x264-DB_2_3.dat'; 'x264-DB_1_2.dat'; 'x264-DB_3_4.dat'; 'x264-DB_4_5.dat'; 'x264-DB_5_6.dat'; 'TriMesh_1_2.dat'; 'TriMesh_2_3.dat'; 'SaC1_2.dat'; 'SaC3_4.dat'; 'SaC_5_6.dat'; 'SaC_7_8.dat'; 'SaC_9_10.dat'; 'SaC_11_12.dat'};%; 'sol-6d-c2.dat'};%'wc+rs-3d-c4.dat'; 'noc.dat';'sn.dat'; 'wc+sol-3d-c4.dat';'wc+wc-3d-c4.dat'; 'wc-3d-c4.dat'; 'wc-5d-c5.dat'; 'wc-6d-c1.dat'; 'wc-c1-3d-c1.dat'; 'wc-c3-3d-c1.dat'};
 % config_file = -1;
 % while(config_file==-1)
 %     config_file = input('Input the name of the configuration file: ', 's');
@@ -37,12 +37,13 @@ files = {'noc.dat';'sn.dat'};%rs-6d-c3.dat'};%; 'sol-6d-c2.dat'};%'wc+rs-3d-c4.d
 % end
 file_iter = 1;
 while file_iter <= length(files)
+    max_time = 60 * 60;
     config_file = strcat(data_folder, char(files(file_iter)));
     %read configuration file
     [conf,state,gp_conf] = load_defaults(config_file);
 
     conf.factor_beta = 1; 
-    conf.plot_prediction=0;
+    conf.plot_prediction=0;s
     conf.display = 0;
     conf.delta = 0.1;
     conf.gap_hyp_update = 1000; 
@@ -59,9 +60,10 @@ while file_iter <= length(files)
     [conf,data_all,real_pareto_set_transformed]=load_data_all(conf);
     failed=0;
     rep_iter = 1;
-    while rep_iter <= conf.number_of_repetitions
+    while rep_iter <= 20
         epsilon_iter = 1;
         while epsilon_iter <= length(conf.epsilon_list)
+            t_start = tic;
             state.force_end=0;
             state.iter_train = 0;
 
@@ -100,6 +102,12 @@ while file_iter <= length(files)
             %disp('start')
             state.total_time=0;
             while (state.force_end==0)
+                t_stop = toc(t_start);
+                fprintf('# %d %f %f \n', pop_sampled.num_entries, t_stop, epsilon);
+                if (t_stop > max_time)
+                    epsilon_iter = epsilon_iter + 1;
+                    break;
+                end
                 state.count_rounds = state.count_rounds +1;
                 state.iter_train = state.iter_train+1;
 
@@ -154,6 +162,7 @@ while file_iter <= length(files)
                 end                 
                 if (pop_predicted.get_pareto(:)==ones(pop_predicted.num_entries,1))
                         state.force_end = 1;
+                        
                 end              
                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                     %%%%%%%%%%%%%%%% error calculation and print outs %%%%%%%%%%%%%%%%
